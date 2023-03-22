@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'Fruit.dart';
+import 'fruit.dart';
 import 'cartProvider.dart';
 import 'fruitDetailView.dart';
 

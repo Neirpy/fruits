@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fruits/country.dart';
 
 class Fruit {
 
@@ -9,7 +10,7 @@ class Fruit {
   final Color color;
   final String image;
   final int quantity;
-  final int origin;
+  final Country origin;
   final String season;
 
   factory Fruit.fromJson(Map<String, dynamic> json) {
@@ -22,7 +23,7 @@ class Fruit {
       color: Color(int.parse(json['color'].substring(1, 7), radix: 16) + 0xFF000000),
       image: json['image'],
       quantity: int.parse(json['stock'].toString()),
-      origin: int.parse(json['origin'].toString()),
+      origin: Country.fromJson(json['origin']),
       season: json['season'],
 
     );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'Fruit.dart';
+import 'fruit.dart';
 
 class CartProvider extends ChangeNotifier{
   final List<Fruit> _panier = [];
@@ -33,13 +33,22 @@ class CartProvider extends ChangeNotifier{
 
 
 
-  String nbFruitPanierMemo(Fruit fruit){
+  int nbFruitPanierMemo(Fruit fruit){
     var nbFruit=_panier.where((element) => element.id == fruit.id).length;
-    notifyListeners();
-    if(nbFruit==0){
-      return '';
-    }
-    return 'x$nbFruit';
+
+    return nbFruit;
   }
 
+  //sort fruit by season
+  List<Fruit> sortFruitBySeason(String season, List<Fruit> fruits){
+    List<Fruit> sortFruits = [];
+    if(season != 'Tous') {
+      for (var fruit in fruits) {
+        if (fruit.season == season) {
+          sortFruits.add(fruit);
+        }
+      }
+    }
+    return fruits;
+  }
 }

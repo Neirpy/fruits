@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'dart:convert';
 
-import 'Fruit.dart';
+import 'fruit.dart';
 import 'cartProvider.dart';
 import 'cartScreen.dart';
 import 'fruitPreview.dart';
@@ -26,9 +26,9 @@ class _FruitMasterState extends State<FruitMasterScreen> {
   late List<Fruit> fruits;
 
   Future<List<Fruit>> fetchApi () async {
-    final response = await http.get(Uri.parse('https://fruits.shrp.dev/items/fruits'));
-    List<Fruit> fruits = [];
+    final response = await http.get(Uri.parse('https://fruits.shrp.dev/items/fruits?fields=*.*'));
 
+    List<Fruit> fruits = [];
 
     if(response.statusCode == 200 || response.statusCode == 304){
       final fruitList = jsonDecode(response.body);
@@ -92,6 +92,80 @@ class _FruitMasterState extends State<FruitMasterScreen> {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  // barre avec un select pour trier les saisons
+                  Container(
+                    height: 30,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        Container(
+                          width: 100,
+                          color: Colors.blue,
+                          child: Center(child: TextButton(
+                            onPressed: () => Provider.of<CartProvider>(context, listen: false).sortFruitBySeason('Tous',fruits),
+                            child: const Text(
+                                'Tous',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                            )
+                          )),
+                        ),
+                        Container(
+                          width: 100,
+                          color: Colors.red,
+                          child: Center(child: TextButton(
+                            onPressed: () => Provider.of<CartProvider>(context, listen: false).sortFruitBySeason('Printemps',fruits),
+                            child: const Text(
+                                'Printemps',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                            )
+                          )),
+                        ),
+                        Container(
+                          width: 100,
+                          color: Colors.yellow,
+                          child: Center(child: TextButton(
+                            onPressed: () => Provider.of<CartProvider>(context, listen: false).sortFruitBySeason('Eté',fruits),
+                            child: const Text(
+                                'Eté',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                            )
+                          )),
+                        ),
+                        Container(
+                          width: 100,
+                          color: Colors.orange,
+                          child: Center(child: TextButton(
+                            onPressed: () => Provider.of<CartProvider>(context, listen: false).sortFruitBySeason('Automne',fruits),
+                            child: const Text(
+                                'Automne',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                            )
+                          )),
+                        ),
+                        Container(
+                          width: 100,
+                          color: Colors.brown,
+                          child: Center(child: TextButton(
+                            onPressed: () => Provider.of<CartProvider>(context, listen: false).sortFruitBySeason('Hiver',fruits),
+                            child: const Text(
+                                'Hiver',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                            )
+                          )),
+                        ),
+                      ],
+                    ),
+                  ),
                   const SizedBox(height: 20),
                   Expanded(
                     child: FutureBuilder(

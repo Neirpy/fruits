@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fruits/quantityBadge.dart';
 import 'package:provider/provider.dart';
 
-import 'Fruit.dart';
+import 'fruit.dart';
 import 'cartProvider.dart';
 import 'fruitDetailView.dart';
 
@@ -27,7 +28,7 @@ class FruitPreview extends StatelessWidget {
                 ),
                 Text(fruit.name),
                 Consumer(builder: (context, CartProvider cartProvider, child) =>
-                    Text(cartProvider.nbFruitPanierMemo(fruit)),
+                    QuantityBadge(quantity: cartProvider.nbFruitPanierMemo(fruit))
                 ),
                 Text(
                     '${fruit.price} €',
@@ -55,7 +56,7 @@ class FruitPreview extends StatelessWidget {
                   )
                 }, icon: const Icon(Icons.search)),
 
-                IconButton(
+                 IconButton(
                   icon: const Icon(Icons.add),
                   onPressed: ()=>Provider.of<CartProvider>(context, listen: false).addPanier(fruit),
                 ),
