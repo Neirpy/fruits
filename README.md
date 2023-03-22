@@ -1,6 +1,6 @@
 # fruits
 
-A new Flutter project fruit From GRUNBLATT Cyprien
+A new Flutter project From GRUNBLATT Cyprien
 
 ## Getting Started
 
