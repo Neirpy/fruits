@@ -1,6 +1,6 @@
-# Fruits from GRUNBLATT Cyprien
+# Fruits from GRUNBLATT Cyprien and VIVER Emilien
 
-A new Flutter project From GRUNBLATT Cyprien
+A new Flutter project From GRUNBLATT Cyprien and VIVER Emilien
 
 ## Getting Started
 

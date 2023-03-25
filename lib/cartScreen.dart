@@ -1,5 +1,6 @@
 //TP03
 import 'package:flutter/material.dart';
+import 'package:fruits/loginForm.dart';
 import 'package:provider/provider.dart';
 
 import 'fruit.dart';
@@ -49,6 +50,9 @@ class CartScreen extends StatelessWidget {
                 );
               }),
             ),
+            LoginForm(onLogin: (String username, String password) {
+
+            },),
           ],
         ),
       ),

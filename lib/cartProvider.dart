@@ -39,16 +39,4 @@ class CartProvider extends ChangeNotifier{
     return nbFruit;
   }
 
-  //sort fruit by season
-  List<Fruit> sortFruitBySeason(String season, List<Fruit> fruits){
-    List<Fruit> sortFruits = [];
-    if(season != 'Tous') {
-      for (var fruit in fruits) {
-        if (fruit.season == season) {
-          sortFruits.add(fruit);
-        }
-      }
-    }
-    return fruits;
-  }
 }

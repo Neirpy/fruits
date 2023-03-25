@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:http/http.dart' as http;
+
 import 'package:provider/provider.dart';
-import 'dart:convert';
+
 
 import 'fruit.dart';
 import 'cartProvider.dart';
@@ -10,42 +10,40 @@ import 'cartScreen.dart';
 import 'fruitPreview.dart';
 
 class FruitMasterScreen extends StatefulWidget {
-  const FruitMasterScreen({super.key, required this.title});
+  const FruitMasterScreen({super.key, required this.title ,required this.fruits});
 
   final String title;
+
+  final List<Fruit> fruits;
+
 
   @override
   State<FruitMasterScreen> createState() => _FruitMasterState();
 
 }
 
-
-
 class _FruitMasterState extends State<FruitMasterScreen> {
 
   late List<Fruit> fruits;
+  late List<Fruit> allFruits;
 
-  Future<List<Fruit>> fetchApi () async {
-    final response = await http.get(Uri.parse('https://fruits.shrp.dev/items/fruits?fields=*.*'));
-
-    List<Fruit> fruits = [];
-
-    if(response.statusCode == 200 || response.statusCode == 304){
-      final fruitList = jsonDecode(response.body);
-      var ft = fruitList['data'].map<Fruit>((fruit) => Fruit.fromJson(fruit));
-
-      fruits = ft.toList();
-
+  //sort fruit by season
+  void sortFruitBySeason(String season)  {
+    List<Fruit> sortFruits = widget.fruits;
+    if (season != 'Tous') {
+      sortFruits=sortFruits.where((fruit) => fruit.season == season).toList();
     }
-    else{
-      throw Exception('Erreur de chargement API');
-    }
-
-    return fruits;
-
+    setState(() {
+      fruits=sortFruits;
+    });
   }
 
   @override
+  void initState() {
+    super.initState();
+    fruits = widget.fruits;
+    allFruits=widget.fruits;
+  }
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -93,7 +91,7 @@ class _FruitMasterState extends State<FruitMasterScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   // barre avec un select pour trier les saisons
-                  Container(
+                  SizedBox(
                     height: 30,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
@@ -102,7 +100,9 @@ class _FruitMasterState extends State<FruitMasterScreen> {
                           width: 100,
                           color: Colors.blue,
                           child: Center(child: TextButton(
-                            onPressed: () => Provider.of<CartProvider>(context, listen: false).sortFruitBySeason('Tous',fruits),
+                            onPressed: () => {
+                              sortFruitBySeason('Tous')
+                            },
                             child: const Text(
                                 'Tous',
                                 style: TextStyle(
@@ -115,7 +115,7 @@ class _FruitMasterState extends State<FruitMasterScreen> {
                           width: 100,
                           color: Colors.red,
                           child: Center(child: TextButton(
-                            onPressed: () => Provider.of<CartProvider>(context, listen: false).sortFruitBySeason('Printemps',fruits),
+                            onPressed: () => sortFruitBySeason('Printemps'),
                             child: const Text(
                                 'Printemps',
                                 style: TextStyle(
@@ -128,7 +128,7 @@ class _FruitMasterState extends State<FruitMasterScreen> {
                           width: 100,
                           color: Colors.yellow,
                           child: Center(child: TextButton(
-                            onPressed: () => Provider.of<CartProvider>(context, listen: false).sortFruitBySeason('Eté',fruits),
+                            onPressed: () => sortFruitBySeason('Eté'),
                             child: const Text(
                                 'Eté',
                                 style: TextStyle(
@@ -141,7 +141,7 @@ class _FruitMasterState extends State<FruitMasterScreen> {
                           width: 100,
                           color: Colors.orange,
                           child: Center(child: TextButton(
-                            onPressed: () => Provider.of<CartProvider>(context, listen: false).sortFruitBySeason('Automne',fruits),
+                            onPressed: () => sortFruitBySeason('Automne'),
                             child: const Text(
                                 'Automne',
                                 style: TextStyle(
@@ -154,7 +154,7 @@ class _FruitMasterState extends State<FruitMasterScreen> {
                           width: 100,
                           color: Colors.brown,
                           child: Center(child: TextButton(
-                            onPressed: () => Provider.of<CartProvider>(context, listen: false).sortFruitBySeason('Hiver',fruits),
+                            onPressed: () => sortFruitBySeason('Hiver'),
                             child: const Text(
                                 'Hiver',
                                 style: TextStyle(
@@ -168,30 +168,14 @@ class _FruitMasterState extends State<FruitMasterScreen> {
                   ),
                   const SizedBox(height: 20),
                   Expanded(
-                    child: FutureBuilder(
-                        future: fetchApi(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return ListView.builder(
-                              itemCount: snapshot.data?.length,
+                    child:
+                      ListView.builder(
+                              itemCount: fruits.length,
                               itemBuilder: (context, index) {
-                                return FruitPreview(fruit: snapshot.data![index]);
-                              },
-                            );
-                          }
-                          else if (snapshot.hasError) {
-                            return const Center(
-                              child: Text('Erreur de chargement des fruits'),
-                            );
-                          }
-                          else {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                        }
+                                return FruitPreview(fruit: fruits[index]);
+                          },
+                      )
                     ),
-                  ),
                 ]
             )
         )
