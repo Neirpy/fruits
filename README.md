@@ -2,6 +2,9 @@
 
 A new Flutter project From GRUNBLATT Cyprien and VIVER Emilien
 
+On est arrivé au TP 9 mais malheuresement, on arrive pas à récupérer les informations du user dans le commande provider,
+on laisse ça comme ça, c'est sûrment une erreur bête mais on ne la voit pas.
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
