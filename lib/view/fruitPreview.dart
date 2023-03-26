@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fruits/quantityBadge.dart';
+import 'package:fruits/view/quantityBadge.dart';
 import 'package:provider/provider.dart';
 
-import 'fruit.dart';
-import 'cartProvider.dart';
+import '../model/fruit.dart';
+import '../provider/cartProvider.dart';
 import 'fruitDetailView.dart';
 
 class FruitPreview extends StatelessWidget {

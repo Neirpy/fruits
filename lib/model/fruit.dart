@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fruits/country.dart';
+import 'package:fruits/model/country.dart';
 
 class Fruit {
 
@@ -34,10 +34,11 @@ class Fruit {
         'id': id,
         'name': name,
         'price': price,
-        'color': color,
+        //convertir la couleur en string
+        'color': color.toString(),
         'image': image,
         'quantity': quantity,
-        'origin': origin,
+        'origin': origin.toJson(),
         'season': season,
       };
 

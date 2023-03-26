@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 
-import 'fruit.dart';
-import 'cartProvider.dart';
+import '../model/fruit.dart';
+import '../provider/cartProvider.dart';
 import 'cartScreen.dart';
-import 'fruitPreview.dart';
+import '../view/fruitPreview.dart';
 
 class FruitMasterScreen extends StatefulWidget {
   const FruitMasterScreen({super.key, required this.title ,required this.fruits});

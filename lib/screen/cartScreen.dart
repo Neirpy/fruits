@@ -1,11 +1,13 @@
 //TP03
+
 import 'package:flutter/material.dart';
-import 'package:fruits/loginForm.dart';
+import 'package:fruits/form/loginForm.dart';
+import 'package:fruits/provider/userProvider.dart';
 import 'package:provider/provider.dart';
 
-import 'fruit.dart';
-import 'cartProvider.dart';
-import 'fruitDetailView.dart';
+import '../model/fruit.dart';
+import '../provider/cartProvider.dart';
+import '../view/fruitDetailView.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -50,6 +52,14 @@ class CartScreen extends StatelessWidget {
                 );
               }),
             ),
+            Consumer2<UserProvider, CartProvider>(builder: (context,  UserProvider userProvider, CartProvider cartProvider, child) {
+              return cartProvider.panier.isNotEmpty && userProvider.isLogin  ? ElevatedButton(
+                onPressed: () {
+                  Provider.of<CartProvider>(context, listen: false).commande(context);
+                },
+                child: const Text('Passer commande'),
+              ) : Container();
+            }),
             LoginForm(onLogin: (String username, String password) {
 
             },),

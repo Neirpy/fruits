@@ -3,13 +3,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:fruits/userProvider.dart';
+import 'package:fruits/provider/userProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
-import 'cartProvider.dart';
-import 'fruit.dart';
-import 'fruitMasterScreen.dart';
+import 'provider/cartProvider.dart';
+import 'model/fruit.dart';
+import 'screen/fruitMasterScreen.dart';
 
 
 void main() {

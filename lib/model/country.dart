@@ -16,4 +16,12 @@ class Country {
       location: LatLng.fromJson(json['location']),
     );
   }
+
+  Map<String, dynamic> toJson() =>
+      {
+        'id': id,
+        'name': name,
+        'code': code,
+        'location': location.toJson(),
+      };
 }
