@@ -55,7 +55,7 @@ class CartScreen extends StatelessWidget {
             Consumer2<UserProvider, CartProvider>(builder: (context,  UserProvider userProvider, CartProvider cartProvider, child) {
               return cartProvider.panier.isNotEmpty && userProvider.isLogin  ? ElevatedButton(
                 onPressed: () {
-                  Provider.of<CartProvider>(context, listen: false).commande(context);
+                  Provider.of<CartProvider>(context, listen: false).commande();
                 },
                 child: const Text('Passer commande'),
               ) : Container();

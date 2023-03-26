@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:fruits/model/user.dart';
 import 'package:fruits/provider/userProvider.dart';
+import 'package:jwt_decode/jwt_decode.dart';
 import 'package:provider/provider.dart';
 
 
@@ -16,6 +20,36 @@ class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  Future<void> login(String email, String password) async {
+    try{
+      final response = await http.post(
+        Uri.parse('https://fruits.shrp.dev/auth/login'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'email': email,
+          'password': password,
+        }),
+      );
+      if (response.statusCode == 200) {
+        print(response.body);
+        var decoded = jsonDecode(response.body);
+        var data= Jwt.parseJwt(decoded['data']['access_token']);
+        User(
+          id: data['id'],
+          email: data['email'],
+          password: password,
+          access_token: decoded['data']['access_token'],
+          renew_token: decoded['data']['renew_token'],
+        );
+      }
+
+    } catch (e) {
+      print(e);
+    }
+  }
 
 
   @override
@@ -52,6 +86,7 @@ class _LoginFormState extends State<LoginForm> {
               ),
               TextFormField(
                 controller: _passwordController,
+                obscureText: true,
                 decoration: const InputDecoration(
                   labelText: 'Password',
                 ),
@@ -85,9 +120,10 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        Provider.of<UserProvider>(context, listen: false).login(_emailController.text, _passwordController.text);
+                        login(_emailController.text, _passwordController.text);
                         if (_formKey.currentState!.validate()) {
                           userProvider.setIsLogin(true);
+                          userProvider.setEmail(_emailController.text);
 
                           _emailController.clear();
                           _passwordController.clear();

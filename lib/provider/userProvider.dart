@@ -11,15 +11,6 @@ class UserProvider extends ChangeNotifier {
     final User _user = User(id: '', email: '', password: '', access_token: '', renew_token: '');
     User get user => _user;
 
-    void setUser(User user) {
-      _user.id = user.id;
-      _user.email = user.email;
-      _user.password = user.password;
-      _user.access_token = user.access_token;
-      _user.renew_token = user.renew_token;
-      notifyListeners();
-    }
-
     bool _isLogin = false;
     bool get isLogin => _isLogin;
 
@@ -52,35 +43,6 @@ class UserProvider extends ChangeNotifier {
       notifyListeners();
     }
 
-
-    Future<void> login(String email, String password) async {
-      try{
-        final response = await http.post(
-          Uri.parse('https://fruits.shrp.dev/auth/login'),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: jsonEncode({
-            'email': email,
-            'password': password,
-          }),
-        );
-        if (response.statusCode == 200) {
-          print(response.body);
-          setEmail(email);
-          var decoded = jsonDecode(response.body);
-          var data= Jwt.parseJwt(decoded['data']['access_token']);
-          user.id = data['id'];
-          user.email = emailUser;
-          user.password = password;
-          user.access_token = decoded['data']['access_token'];
-          user.renew_token = decoded['data']['renew_token'];
-          notifyListeners();
-        }
-      } catch (e) {
-        print(e);
-      }
-    }
 
     Future<void> register(String email, String password) async {
       try{
@@ -122,11 +84,6 @@ class UserProvider extends ChangeNotifier {
       );
       if (response.statusCode == 200) {
         print('user logged out');
-        _user.id = '';
-        _user.email = '';
-        _user.password = '';
-        _user.access_token = '';
-        _user.renew_token = '';
         notifyListeners();
       }
       else {

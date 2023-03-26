@@ -45,10 +45,16 @@ class CartProvider extends ChangeNotifier{
     return nbFruit;
   }
 
-  Future<void> commande(context) async {
-    userProvider = Provider.of<UserProvider>(context, listen: false);
-    String id = userProvider.getId;
-    String access_token = userProvider.getAccessToken;
+  Future<void> commande() async {
+    final user = UserProvider();
+
+    if (user.isLogin == false) {
+      print('Vous devez vous connecter');
+      return;
+    }
+    final id = user.idUser;
+    final access_token = user.access_token;
+
 
     print('id: $id');
     print('access_token: $access_token');
